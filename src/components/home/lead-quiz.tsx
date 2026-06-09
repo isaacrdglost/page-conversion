@@ -1,0 +1,224 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { X, Check, ArrowLeft } from "lucide-react";
+import { WhatsappIcon } from "@/components/icons/whatsapp";
+import { businessWhatsappHref } from "@/config/business";
+
+/**
+ * "Montar a minha página": mini-form de 2 passos num modal de tamanho fixo.
+ * 1) Ramo. 2) O que entra (cada item com uma explicação clara).
+ * No fim, abre o WhatsApp com a mensagem montada a partir das escolhas.
+ */
+
+const RAMOS = [
+  "Estética e beleza",
+  "Advocacia",
+  "Clínica e saúde",
+  "Psicologia",
+  "Academia e personal",
+  "Outro",
+];
+
+const NEEDS: { title: string; desc: string }[] = [
+  { title: "Site / Página", desc: "Sua presença profissional no ar, pronta pra converter." },
+  { title: "Aparecer no Google", desc: "Ser encontrado por quem já procura por você." },
+  { title: "Anúncios e tráfego", desc: "Atrair clientes novos com campanhas pagas." },
+  { title: "Atendimento automático", desc: "Respostas e agendamento no WhatsApp, no automático." },
+  { title: "Identidade visual", desc: "Logo, cores e a cara da sua marca." },
+];
+
+export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const [ramo, setRamo] = useState<string | null>(null);
+  const [needs, setNeeds] = useState<string[]>([NEEDS[0].title]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const start = () => {
+    setStep(1);
+    setRamo(null);
+    setNeeds([NEEDS[0].title]);
+    setOpen(true);
+  };
+  const pickRamo = (r: string) => {
+    setRamo(r);
+    setStep(2);
+  };
+  const toggleNeed = (n: string) =>
+    setNeeds((prev) => (prev.includes(n) ? prev.filter((x) => x !== n) : [...prev, n]));
+
+  const message = `Olá! Quero montar uma página para ${ramo ?? "o meu negócio"}. Preciso de: ${needs.join(", ")}.`;
+  const href = businessWhatsappHref(message);
+
+  return (
+    <>
+      <button
+        onClick={start}
+        className={
+          triggerClassName ??
+          "inline-flex shrink-0 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all hover:-translate-y-0.5 hover:opacity-90"
+        }
+      >
+        Montar a minha página
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="fixed inset-0 z-[70] flex items-center justify-center p-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <button
+              aria-label="Fechar"
+              onClick={() => setOpen(false)}
+              className="absolute inset-0 bg-foreground/50 backdrop-blur-md"
+            />
+
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="relative flex max-h-[88vh] w-full max-w-md flex-col overflow-y-auto rounded-3xl border border-border bg-card p-7 shadow-2xl sm:p-8"
+            >
+              {/* Topo: voltar / fechar */}
+              <div className="flex items-center justify-between">
+                {step === 2 ? (
+                  <button
+                    onClick={() => setStep(1)}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Voltar
+                  </button>
+                ) : (
+                  <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
+                    Montando a sua página
+                  </span>
+                )}
+                <button
+                  onClick={() => setOpen(false)}
+                  aria-label="Fechar"
+                  className="grid h-8 w-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Progresso (2 etapas) */}
+              <div className="mt-4 flex gap-1.5">
+                <span className="h-1 flex-1 rounded-full bg-foreground" />
+                <span className={`h-1 flex-1 rounded-full ${step === 2 ? "bg-foreground" : "bg-muted"}`} />
+              </div>
+
+              {/* Conteúdo com altura fixa pra não pular entre passos */}
+              <div className="mt-6 min-h-[27rem]">
+                <AnimatePresence mode="wait" initial={false}>
+                  {step === 1 ? (
+                    <motion.div
+                      key="step1"
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -16 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                        Pra começar, qual é o seu ramo?
+                      </h2>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Assim eu já entendo o seu negócio.
+                      </p>
+                      <div className="mt-5 grid grid-cols-2 gap-2.5">
+                        {RAMOS.map((r) => (
+                          <button
+                            key={r}
+                            onClick={() => pickRamo(r)}
+                            className="rounded-xl border border-border bg-background px-3 py-3.5 text-left text-sm font-medium text-foreground transition-all hover:-translate-y-0.5 hover:border-foreground"
+                          >
+                            {r}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="step2"
+                      initial={{ opacity: 0, x: 16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -16 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                        O que entra na sua página?
+                      </h2>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Marque o que precisar. Dá pra começar só pelo site.
+                      </p>
+                      <div className="mt-5 flex flex-col gap-2">
+                        {NEEDS.map((n) => {
+                          const on = needs.includes(n.title);
+                          return (
+                            <button
+                              key={n.title}
+                              onClick={() => toggleNeed(n.title)}
+                              className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
+                                on ? "border-foreground bg-foreground/[0.04]" : "border-border hover:border-foreground/40"
+                              }`}
+                            >
+                              <span
+                                className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border ${
+                                  on ? "border-foreground bg-foreground text-background" : "border-border"
+                                }`}
+                              >
+                                {on && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
+                              </span>
+                              <span>
+                                <span className="block text-sm font-semibold text-foreground">{n.title}</span>
+                                <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">
+                                  {n.desc}
+                                </span>
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setOpen(false)}
+                        className="group mt-5 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#25D366]/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#25D366]/40"
+                      >
+                        <WhatsappIcon className="h-5 w-5 transition-transform group-hover:rotate-6" />
+                        Falar no WhatsApp
+                      </a>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
