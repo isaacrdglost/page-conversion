@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll } from "motion/react";
-import { HomeSection, Heading } from "@/components/home/section";
+import { HomeSection } from "@/components/home/section";
+import { HighlightMark } from "@/components/home/highlight-mark";
+import { Reveal } from "@/components/ui/reveal";
 import { SketchSearch, SketchLayout, SketchRocket } from "@/components/home/sketches";
 
 const STEPS = [
@@ -37,9 +39,18 @@ export function Process() {
 
   return (
     <HomeSection id="processo">
-      <Heading title="Como o seu projeto ganha vida." />
+      <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <Reveal>
+          <h2 className="text-[2.4rem] font-semibold leading-[1.04] tracking-[-0.02em] sm:text-5xl md:text-[3.4rem]">
+            Como o seu
+            <br />
+            projeto ganha
+            <br />
+            <HighlightMark>vida</HighlightMark>.
+          </h2>
+        </Reveal>
 
-      <div ref={trackRef} className="relative mx-auto mt-14 max-w-2xl">
+        <div ref={trackRef} className="relative">
         {/* Trilha base (faint) */}
         <div
           aria-hidden
@@ -82,6 +93,7 @@ export function Process() {
               </motion.div>
             );
           })}
+        </div>
         </div>
       </div>
     </HomeSection>

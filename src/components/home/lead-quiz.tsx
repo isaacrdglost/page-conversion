@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X, Check, ArrowLeft } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/whatsapp";
@@ -34,6 +34,8 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
   const [step, setStep] = useState(1);
   const [ramo, setRamo] = useState<string | null>(null);
   const [needs, setNeeds] = useState<string[]>([NEEDS[0].title]);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number | "auto">("auto");
 
   useEffect(() => {
     if (!open) return;
@@ -46,6 +48,12 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
+
+  // Mede a altura do passo atual pra animar o redimensionamento (estilo Apple).
+  useEffect(() => {
+    if (!open) return;
+    if (measureRef.current) setHeight(measureRef.current.offsetHeight);
+  }, [open, step]);
 
   const start = () => {
     setStep(1);
@@ -129,92 +137,91 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
                 <span className={`h-1 flex-1 rounded-full ${step === 2 ? "bg-foreground" : "bg-muted"}`} />
               </div>
 
-              {/* Conteúdo com altura fixa pra não pular entre passos */}
-              <div className="mt-6 min-h-[27rem]">
-                <AnimatePresence mode="wait" initial={false}>
-                  {step === 1 ? (
-                    <motion.div
-                      key="step1"
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -16 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <h2 className="text-xl font-semibold tracking-tight text-foreground">
-                        Pra começar, qual é o seu ramo?
-                      </h2>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Assim eu já entendo o seu negócio.
-                      </p>
-                      <div className="mt-5 grid grid-cols-2 gap-2.5">
-                        {RAMOS.map((r) => (
-                          <button
-                            key={r}
-                            onClick={() => pickRamo(r)}
-                            className="rounded-xl border border-border bg-background px-3 py-3.5 text-left text-sm font-medium text-foreground transition-all hover:-translate-y-0.5 hover:border-foreground"
-                          >
-                            {r}
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="step2"
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -16 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <h2 className="text-xl font-semibold tracking-tight text-foreground">
-                        O que entra na sua página?
-                      </h2>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Marque o que precisar. Dá pra começar só pelo site.
-                      </p>
-                      <div className="mt-5 flex flex-col gap-2">
-                        {NEEDS.map((n) => {
-                          const on = needs.includes(n.title);
-                          return (
+              {/* Conteúdo: a altura anima suavemente entre os passos (estilo Apple) */}
+              <motion.div
+                animate={{ height }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-5 overflow-hidden"
+              >
+                <div ref={measureRef}>
+                  <motion.div
+                    key={step}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+                  >
+                    {step === 1 ? (
+                      <>
+                        <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                          Pra começar, qual é o seu ramo?
+                        </h2>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          Assim eu já entendo o seu negócio.
+                        </p>
+                        <div className="mt-5 grid grid-cols-2 gap-2.5">
+                          {RAMOS.map((r) => (
                             <button
-                              key={n.title}
-                              onClick={() => toggleNeed(n.title)}
-                              className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
-                                on ? "border-foreground bg-foreground/[0.04]" : "border-border hover:border-foreground/40"
-                              }`}
+                              key={r}
+                              onClick={() => pickRamo(r)}
+                              className="rounded-xl border border-border bg-background px-4 py-3.5 text-left text-sm font-medium text-foreground transition-all hover:-translate-y-0.5 hover:border-foreground hover:bg-muted/40"
                             >
-                              <span
-                                className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border ${
-                                  on ? "border-foreground bg-foreground text-background" : "border-border"
+                              {r}
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                          O que entra na sua página?
+                        </h2>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          Marque o que precisar. Dá pra começar só pelo site.
+                        </p>
+                        <div className="mt-5 flex flex-col gap-2">
+                          {NEEDS.map((n) => {
+                            const on = needs.includes(n.title);
+                            return (
+                              <button
+                                key={n.title}
+                                onClick={() => toggleNeed(n.title)}
+                                className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
+                                  on ? "border-foreground bg-foreground/[0.04]" : "border-border hover:border-foreground/40"
                                 }`}
                               >
-                                {on && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
-                              </span>
-                              <span>
-                                <span className="block text-sm font-semibold text-foreground">{n.title}</span>
-                                <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">
-                                  {n.desc}
+                                <span
+                                  className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border ${
+                                    on ? "border-foreground bg-foreground text-background" : "border-border"
+                                  }`}
+                                >
+                                  {on && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
                                 </span>
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
+                                <span>
+                                  <span className="block text-sm font-semibold text-foreground">{n.title}</span>
+                                  <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">
+                                    {n.desc}
+                                  </span>
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
 
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setOpen(false)}
-                        className="group mt-5 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#25D366]/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#25D366]/40"
-                      >
-                        <WhatsappIcon className="h-5 w-5 transition-transform group-hover:rotate-6" />
-                        Falar no WhatsApp
-                      </a>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setOpen(false)}
+                          className="group mt-5 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#25D366]/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#25D366]/40"
+                        >
+                          <WhatsappIcon className="h-5 w-5 transition-transform group-hover:rotate-6" />
+                          Falar no WhatsApp
+                        </a>
+                      </>
+                    )}
+                  </motion.div>
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
