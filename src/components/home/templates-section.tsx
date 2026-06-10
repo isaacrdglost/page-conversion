@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { templates, comingSoon } from "@/config/templates";
@@ -57,7 +58,8 @@ export function TemplatesSection() {
           <Reveal key={t.slug} delay={i * 0.08}>
             <Link
               href={`/${t.slug}`}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-foreground/20 hover:shadow-xl hover:shadow-foreground/5"
+              style={{ "--accent": t.config.theme.primary } as CSSProperties}
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-all [border-color:color-mix(in_srgb,var(--accent)_35%,var(--border))] hover:-translate-y-1 hover:[border-color:var(--accent)] hover:[box-shadow:0_20px_45px_-15px_color-mix(in_srgb,var(--accent)_40%,transparent)]"
             >
               <Preview niche={t.niche} accent={t.config.theme.primary} />
               <div className="flex flex-1 flex-col p-7">
