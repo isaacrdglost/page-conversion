@@ -233,6 +233,11 @@ export const odontoDraAna: SiteConfig = {
     ],
   },
 
+  convenios: {
+    title: "Aceitamos convênios e planos de saúde",
+    cta: "Confira os planos aceitos",
+  },
+
   footer: {
     logoIcon: "tooth",
     name: "Dra. Ana Souza",
@@ -253,6 +258,6 @@ export const odontoDraAna: SiteConfig = {
   },
 
   sections: {
-    order: ["hero", "stats", "about", "services", "gallery", "testimonials", "faq", "location", "cta"],
+    order: ["hero", "stats", "about", "services", "gallery", "testimonials", "faq", "convenios", "location", "cta"],
   },
 };

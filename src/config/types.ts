@@ -240,6 +240,17 @@ export interface LocationConfig {
   hours?: { days: string; hours: string }[];
 }
 
+/**
+ * Faixa enxuta de convênios/planos aceitos (versão de entrada; a versão detalhada
+ * com logos é upsell premium). O CTA direciona ao WhatsApp ("confira quais").
+ */
+export interface ConveniosConfig {
+  /** Ex: "Aceitamos convênios e planos de saúde". */
+  title: string;
+  /** Texto do link/CTA. Ex: "Confira os planos aceitos". */
+  cta?: string;
+}
+
 export interface FooterConfig {
   /** Ícone da marca (ex: "tooth"). Tem prioridade sobre o monograma. */
   logoIcon?: IconName;
@@ -272,7 +283,8 @@ export type SectionKey =
   | "testimonials"
   | "faq"
   | "cta"
-  | "location";
+  | "location"
+  | "convenios";
 
 /**
  * Pop-up de proposta (NOSSA camada de venda sobre a demo). Dispara quando o
@@ -310,6 +322,8 @@ export interface SiteConfig {
   faq: FaqConfig;
   cta: CtaConfig;
   location: LocationConfig;
+  /** Faixa enxuta de convênios aceitos (opcional). */
+  convenios?: ConveniosConfig;
   footer: FooterConfig;
   sections: SectionsToggle;
   /** Pop-up de proposta. Se ausente, usa um default genérico. */

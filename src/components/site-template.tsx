@@ -11,6 +11,7 @@ import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Faq } from "@/components/sections/faq";
 import { Location } from "@/components/sections/location";
+import { Convenios } from "@/components/sections/convenios";
 import { Cta } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
 import { DemoFloat } from "@/components/demo-float";
@@ -43,6 +44,7 @@ export function SiteTemplate({ config: c, year }: { config: SiteConfig; year: nu
       />
     ),
     cta: <Cta cta={c.cta} whatsappHref={wa} />,
+    convenios: c.convenios ? <Convenios convenios={c.convenios} /> : null,
   };
 
   return (
