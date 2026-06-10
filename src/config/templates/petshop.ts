@@ -216,7 +216,7 @@ export const petshopPatasECia: SiteConfig = {
 
   promo: {
     headline: "Imagina isso com o nome do seu pet shop.",
-    body: "Essa é a sensação que o próximo tutor vai ter ao te encontrar: um lugar confiável, caprichado, a escolha óbvia do bairro. É essa primeira impressão que lota a sua agenda. Me chama que eu te mostro como a sua ficaria.",
+    body: "Essa é a sensação que o próximo tutor vai ter ao te encontrar: **um lugar confiável, caprichado, a escolha óbvia do bairro**. É essa primeira impressão que lota a sua agenda. Me chama que eu te mostro como a sua ficaria.",
     chips: ["Mais clientes", "Mais confiança", "Encontrado no Google"],
     primaryCta: "Quero isso pra mim",
     note: "Criada do zero com a sua identidade. Poucos projetos por vez, para cuidar de cada um de perto.",

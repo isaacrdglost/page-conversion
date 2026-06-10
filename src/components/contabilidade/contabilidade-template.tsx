@@ -157,7 +157,7 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
           </div>
 
           <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-24 pt-28 sm:pt-32 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:pb-28 lg:pt-40">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 min-w-0 lg:order-1">
               <Reveal>
                 <h1 className="font-heading text-[2.4rem] font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
                   <H text={c.hero.headline} />
@@ -170,13 +170,13 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
               </Reveal>
               <Reveal delay={0.16}>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <PitchButton className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30">
+                  <PitchButton className="group inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-4 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30 sm:w-auto">
                     <WhatsappIcon className="h-5 w-5" />
                     {c.hero.primaryCta}
                   </PitchButton>
                   <a
                     href="#servicos"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-4 text-base font-semibold text-foreground transition-colors hover:bg-muted"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-4 text-base font-semibold text-foreground transition-colors hover:bg-muted sm:w-auto"
                   >
                     Ver serviços
                     <ArrowRight className="h-4 w-4" />
@@ -206,7 +206,7 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
               </Reveal>
             </div>
 
-            <Reveal direction="left" delay={0.1} className="relative order-1 lg:order-2">
+            <Reveal direction="left" delay={0.1} className="relative order-1 min-w-0 lg:order-2">
               <div className="absolute -bottom-6 -right-5 -z-10 h-52 w-52 rounded-[2rem] bg-primary/10" />
               <div className="relative overflow-hidden rounded-[1.75rem] border border-border shadow-2xl shadow-primary/10">
                 <div className="relative aspect-[4/5] w-full sm:aspect-square">
@@ -315,7 +315,7 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
         {/* SERVIÇOS — lista dinâmica + imagem */}
         <section id="servicos" className="scroll-mt-24 bg-muted/50 py-20 sm:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-[1fr_0.85fr] lg:gap-16 lg:px-8">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 min-w-0 lg:order-1">
               <Reveal>
                 <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                   Tudo que a sua empresa precisa, em um só lugar.
@@ -340,7 +340,7 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
                 ))}
               </div>
             </div>
-            <Reveal direction="left" className="relative order-1 lg:order-2">
+            <Reveal direction="left" className="relative order-1 min-w-0 lg:order-2">
               <div className="absolute -right-5 -top-5 -z-10 h-44 w-44 rounded-[2rem] bg-primary/10" />
               <div className="relative overflow-hidden rounded-[1.75rem] border border-border shadow-xl lg:sticky lg:top-28">
                 <div className="relative aspect-[4/3] w-full lg:aspect-[3/4]">
@@ -368,19 +368,29 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
                 Sem burocracia da sua parte. Em três passos você tira o peso da contabilidade das costas.
               </p>
             </Reveal>
-            <div className="relative mt-14 grid gap-12 md:grid-cols-3 md:gap-10">
+            <div className="relative mt-14 grid gap-8 md:grid-cols-3 md:gap-10">
+              {/* trilha desktop (horizontal, no topo) */}
               <div className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-border to-transparent md:block" />
-              <div className="absolute bottom-10 left-1/2 top-10 w-px -translate-x-1/2 bg-gradient-to-b from-primary/40 via-border to-primary/40 md:hidden" />
+              {/* trilha mobile (vertical, alinhada aos círculos, sem cruzar o texto) */}
+              <div className="absolute bottom-8 left-7 top-8 w-px -translate-x-1/2 bg-gradient-to-b from-primary/40 via-border to-primary/40 md:hidden" />
               {PROCESSO.map((p, i) => (
-                <Reveal key={p.n} delay={i * 0.12} className="relative text-center">
-                  <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
+                <Reveal
+                  key={p.n}
+                  delay={i * 0.12}
+                  className="relative flex items-start gap-5 text-left md:block md:text-center"
+                >
+                  <div className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 md:mx-auto">
                     <Icon name={p.icon} size={26} />
                   </div>
-                  <span className="mt-5 block font-heading text-sm font-bold tracking-widest text-primary/60">
-                    {p.n}
-                  </span>
-                  <h3 className="mt-1 font-heading text-xl font-semibold text-foreground">{p.title}</h3>
-                  <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+                  <div>
+                    <span className="block font-heading text-sm font-bold tracking-widest text-primary/60 md:mt-5">
+                      {p.n}
+                    </span>
+                    <h3 className="mt-1 font-heading text-xl font-semibold text-foreground">{p.title}</h3>
+                    <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground md:mx-auto">
+                      {p.desc}
+                    </p>
+                  </div>
                 </Reveal>
               ))}
             </div>

@@ -219,7 +219,7 @@ export const eventosVillaReal: SiteConfig = {
 
   promo: {
     headline: "Imagina isso com o nome do seu espaço.",
-    body: "Essa é a sensação que os próximos noivos vão ter ao te encontrar: um espaço dos sonhos, confiável, a escolha certa. É essa primeira impressão que fecha a sua agenda. Me chama que eu te mostro como a sua ficaria.",
+    body: "Essa é a sensação que os próximos noivos vão ter ao te encontrar: **um espaço dos sonhos, confiável, a escolha certa**. É essa primeira impressão que fecha a sua agenda. Me chama que eu te mostro como a sua ficaria.",
     chips: ["Mais reservas", "Mais autoridade", "Encontrado no Google"],
     primaryCta: "Quero isso pra mim",
     note: "Criada do zero com a sua identidade. Poucos projetos por vez, para cuidar de cada um de perto.",

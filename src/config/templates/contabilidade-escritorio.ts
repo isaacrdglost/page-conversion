@@ -197,7 +197,7 @@ export const contabilidadeFerreira: SiteConfig = {
 
   promo: {
     headline: "Imagina isso com o nome do seu escritório.",
-    body: "Essa é a impressão que o seu próximo cliente vai ter: um escritório sério, confiável, a escolha óbvia. É essa primeira impressão que enche a sua carteira de clientes. Me chama que eu te mostro como a sua ficaria.",
+    body: "Essa é a impressão que o seu próximo cliente vai ter: **um escritório sério, confiável, a escolha óbvia**. É essa primeira impressão que enche a sua carteira de clientes. Me chama que eu te mostro como a sua ficaria.",
     chips: ["Mais clientes", "Mais autoridade", "Encontrado no Google"],
     primaryCta: "Quero isso pra mim",
     note: "Criada do zero com a sua identidade. Poucos projetos por vez, para cuidar de cada um de perto.",

@@ -204,7 +204,7 @@ export const pilatesStudioLotus: SiteConfig = {
 
   promo: {
     headline: "Imagina isso com o nome do seu studio.",
-    body: "Essa é a sensação que a sua próxima aluna vai ter ao te encontrar: um studio acolhedor, profissional, a escolha certa. É essa primeira impressão que preenche as suas turmas. Me chama que eu te mostro como o seu ficaria.",
+    body: "Essa é a sensação que a sua próxima aluna vai ter ao te encontrar: **um studio acolhedor, profissional, a escolha certa**. É essa primeira impressão que preenche as suas turmas. Me chama que eu te mostro como o seu ficaria.",
     chips: ["Mais alunas", "Mais autoridade", "Encontrado no Google"],
     primaryCta: "Quero isso pra mim",
     note: "Criada do zero com a sua identidade. Poucos projetos por vez, para cuidar de cada um de perto.",
