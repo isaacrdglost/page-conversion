@@ -21,7 +21,7 @@ const MARK =
 /** Copy padrão (genérica) caso o template não defina a sua. */
 const DEFAULT_PROMO: PromoConfig = {
   headline: "Imagina isso com o seu nome.",
-  body: "Essa é a sensação que o seu próximo cliente vai ter ao te encontrar: **o profissional mais desejado, confiável e escalável da sua cidade**. É essa primeira impressão que faz uma agenda transbordar. Me chama que eu te mostro como a sua ficaria.",
+  body: "Essa é a sensação que o seu próximo cliente vai ter ao te encontrar: **o profissional mais desejado e confiável, a escolha óbvia da sua cidade**. É essa primeira impressão que faz uma agenda transbordar. Me chama que eu te mostro como a sua ficaria.",
   chips: ["Mais clientes", "Mais autoridade", "Encontrado no Google"],
   primaryCta: "Quero isso pra mim",
   note: "Poucos projetos por vez, para cuidar de cada um de perto.",
