@@ -82,7 +82,13 @@ export function Hero({
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover object-top"
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent lg:hidden" />
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-20 lg:hidden"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to top, var(--background), rgb(from var(--background) r g b / 0))",
+                }}
+              />
             </div>
 
             {hero.floatCard && (

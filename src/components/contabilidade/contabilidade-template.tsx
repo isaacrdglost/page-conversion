@@ -156,7 +156,7 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
             <CurveBg className="absolute inset-0 h-full w-full text-primary/[0.06]" />
           </div>
 
-          <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-24 pt-28 sm:pt-32 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:pb-28 lg:pt-40">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-24 pt-16 sm:gap-12 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:pb-28 lg:pt-40">
             <div className="order-2 min-w-0 lg:order-1">
               <Reveal>
                 <h1 className="font-heading text-[2.4rem] font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
@@ -219,7 +219,13 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
                     className="object-cover object-center"
                   />
                 </div>
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent lg:hidden" />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-20 lg:hidden"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to top, var(--background), rgb(from var(--background) r g b / 0))",
+                  }}
+                />
               </div>
             </Reveal>
           </div>

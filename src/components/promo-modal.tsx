@@ -99,7 +99,7 @@ export function PromoModal({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[60] flex items-center justify-center p-5"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -122,7 +122,7 @@ export function PromoModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-border bg-card p-8 text-center shadow-2xl sm:p-10"
+            className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-lg flex-col overflow-hidden rounded-3xl border border-border bg-card text-center shadow-2xl"
           >
             {/* Brilho decorativo */}
             <div className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
@@ -130,12 +130,12 @@ export function PromoModal({
             <button
               onClick={() => setOpen(false)}
               aria-label="Fechar"
-              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative">
+            <div className="relative min-h-0 overflow-y-auto px-6 py-8 sm:px-10 sm:py-10">
               <h2
                 id="promo-title"
                 className="text-3xl font-semibold tracking-tight text-foreground sm:text-[2.5rem] sm:leading-tight"

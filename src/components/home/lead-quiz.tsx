@@ -86,7 +86,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-[70] flex items-center justify-center p-5"
+            className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -105,9 +105,10 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 12 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex max-h-[88vh] w-full max-w-md flex-col overflow-y-auto rounded-3xl border border-border bg-card p-7 shadow-2xl sm:p-8"
+              className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-2xl"
             >
-              {/* Topo: voltar / fechar */}
+              {/* Topo fixo: voltar / fechar + progresso */}
+              <div className="shrink-0 px-7 pt-7 sm:px-8 sm:pt-8">
               <div className="flex items-center justify-between">
                 {step === 2 ? (
                   <button
@@ -136,8 +137,10 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
                 <span className="h-1 flex-1 rounded-full bg-foreground" />
                 <span className={`h-1 flex-1 rounded-full ${step === 2 ? "bg-foreground" : "bg-muted"}`} />
               </div>
+              </div>
 
-              {/* Conteúdo: a altura anima suavemente entre os passos (estilo Apple) */}
+              {/* Conteúdo rolável: a altura anima suavemente entre os passos (estilo Apple) */}
+              <div className="min-h-0 flex-1 overflow-y-auto px-7 pb-7 sm:px-8 sm:pb-8">
               <motion.div
                 animate={{ height }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -222,6 +225,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
                   </motion.div>
                 </div>
               </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         )}

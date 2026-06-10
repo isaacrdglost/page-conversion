@@ -73,7 +73,7 @@ export function WhatsAppInterstitial() {
     <AnimatePresence>
       {href && (
         <motion.div
-          className="fixed inset-0 z-[70] flex items-center justify-center p-5"
+          className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -93,8 +93,9 @@ export function WhatsAppInterstitial() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-border bg-card p-8 text-center shadow-2xl"
+            className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-border bg-card text-center shadow-2xl"
           >
+            <div className="min-h-0 overflow-y-auto p-8">
             <h2
               id="wa-interstitial-title"
               className="text-2xl font-semibold tracking-tight text-foreground sm:text-[1.7rem]"
@@ -156,6 +157,7 @@ export function WhatsAppInterstitial() {
             <p className="mt-8 text-[12px] text-muted-foreground">
               Preparando o seu atendimento...
             </p>
+            </div>
           </motion.div>
         </motion.div>
       )}

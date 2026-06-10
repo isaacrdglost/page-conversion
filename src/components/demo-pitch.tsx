@@ -50,7 +50,7 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[60] flex items-center justify-center p-5"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -69,16 +69,17 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-border bg-card p-8 text-center shadow-2xl"
+            className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-border bg-card text-center shadow-2xl"
           >
             <button
               onClick={() => setOpen(false)}
               aria-label="Fechar"
-              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               <X className="h-5 w-5" />
             </button>
 
+            <div className="min-h-0 overflow-y-auto p-8">
             <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[#25D366]/15 text-[#25D366]">
               <WhatsappIcon className="h-6 w-6" />
             </span>
@@ -107,6 +108,7 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
             >
               Voltar ao exemplo
             </button>
+            </div>
           </motion.div>
         </motion.div>
       )}
