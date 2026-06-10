@@ -262,6 +262,8 @@ export interface FooterConfig {
   subline?: string;
   /** Linha de descrição curta. */
   tagline?: string;
+  /** CNPJ para o rodapé (legitimidade; usar em escritórios/estabelecimentos). */
+  cnpj?: string;
   /** Texto de copyright (o ano é adicionado automaticamente). */
   copyright: string;
 }

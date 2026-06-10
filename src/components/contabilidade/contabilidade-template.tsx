@@ -273,6 +273,33 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
           </div>
         </section>
 
+        {/* SETORES — faixa enxuta (versão de entrada; o detalhado é upsell) */}
+        <section className="border-b border-border py-12 sm:py-14">
+          <div className="mx-auto max-w-5xl px-5 lg:px-8">
+            <Reveal className="flex flex-col items-center gap-6 text-center">
+              <p className="text-sm font-medium text-muted-foreground sm:text-[15px]">
+                Atendemos empresas e profissionais de vários setores
+              </p>
+              <div className="flex flex-wrap justify-center gap-2.5">
+                {["Saúde e médicos", "Advocacia", "Comércio e varejo", "TI e startups", "Engenharia", "Prestadores de serviço"].map(
+                  (s) => (
+                    <span
+                      key={s}
+                      className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-sm"
+                    >
+                      {s}
+                    </span>
+                  ),
+                )}
+              </div>
+              <PitchButton className="group inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline">
+                Não vê o seu setor? Fale com a gente
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </PitchButton>
+            </Reveal>
+          </div>
+        </section>
+
         {/* DOR — imagem + lista limpa (sem cards vermelhos) */}
         <section className="py-20 sm:py-28">
           <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 lg:grid-cols-2 lg:gap-16 lg:px-8">
@@ -682,6 +709,9 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
                 Contabilidade descomplicada pra você cuidar do que importa: o crescimento do seu negócio.
               </p>
+              {c.footer.cnpj && (
+                <p className="mt-3 text-xs text-muted-foreground/70">CNPJ {c.footer.cnpj}</p>
+              )}
             </div>
 
             <FooterCol title="Serviços">

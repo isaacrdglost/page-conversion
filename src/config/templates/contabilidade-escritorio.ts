@@ -192,6 +192,7 @@ export const contabilidadeFerreira: SiteConfig = {
     monogram: "FC",
     name: "Ferreira Contabilidade",
     subline: "CRC-PR 012345 · Contabilidade",
+    cnpj: "12.345.678/0001-90",
     copyright: "São José dos Pinhais, PR",
   },
 
