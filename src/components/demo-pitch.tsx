@@ -6,6 +6,9 @@ import { X } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { businessWhatsappHref } from "@/config/business";
 import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { openModal, releaseModal, useModalSync } from "@/lib/modal-manager";
+
+const MODAL_ID = "demo-pitch";
 
 /**
  * Modal de pitch das páginas de exemplo. Qualquer elemento com o atributo
@@ -23,11 +26,20 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
       : "Olá! Vi um exemplo e quero uma página assim, com a minha marca. Como ficaria?",
   );
 
+  const close = () => {
+    setOpen(false);
+    releaseModal(MODAL_ID);
+  };
+
+  // Se outro modal assumir a tela, este se fecha sozinho (sem sobreposição).
+  useModalSync(MODAL_ID, open, () => setOpen(false));
+
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (target?.closest?.("[data-demo-pitch]")) {
         e.preventDefault();
+        openModal(MODAL_ID);
         setOpen(true);
       }
     };
@@ -37,12 +49,11 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    lockScroll();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      unlockScroll();
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
@@ -59,7 +70,7 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
         >
           <button
             aria-label="Fechar"
-            onClick={() => setOpen(false)}
+            onClick={close}
             className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 
@@ -73,7 +84,7 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
             className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-sm flex-col overflow-hidden rounded-3xl border border-border bg-card text-center shadow-2xl"
           >
             <button
-              onClick={() => setOpen(false)}
+              onClick={close}
               aria-label="Fechar"
               className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
@@ -104,7 +115,7 @@ export function DemoPitchModal({ niche }: { niche?: string }) {
             </a>
 
             <button
-              onClick={() => setOpen(false)}
+              onClick={close}
               className="mt-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Voltar ao exemplo

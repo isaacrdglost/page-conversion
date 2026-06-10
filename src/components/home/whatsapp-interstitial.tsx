@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, Loader2 } from "lucide-react";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { openModal, releaseModal, useModalSync } from "@/lib/modal-manager";
+
+const MODAL_ID = "wa-interstitial";
 
 /**
  * Intermediário entre a HOME e o WhatsApp. Intercepta apenas os links marcados
@@ -22,6 +26,14 @@ export function WhatsAppInterstitial() {
   const [shown, setShown] = useState(0); // quantos itens já surgiram
   const [finished, setFinished] = useState(false); // último item concluído
 
+  const close = () => {
+    setHref(null);
+    releaseModal(MODAL_ID);
+  };
+
+  // Se outro modal assumir a tela, este se fecha sozinho (sem sobreposição).
+  useModalSync(MODAL_ID, href !== null, () => setHref(null));
+
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const target = e.target as Element | null;
@@ -30,6 +42,7 @@ export function WhatsAppInterstitial() {
       if (anchor.dataset.waInterstitial === undefined) return;
       e.preventDefault();
       e.stopPropagation();
+      openModal(MODAL_ID);
       setHref(anchor.href);
     };
     document.addEventListener("click", onClick, true);
@@ -41,9 +54,8 @@ export function WhatsAppInterstitial() {
     setShown(0);
     setFinished(false);
 
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setHref(null);
+    lockScroll();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
 
     const timers = INCLUDED.map((_, i) =>
@@ -61,7 +73,7 @@ export function WhatsAppInterstitial() {
     );
 
     return () => {
-      document.body.style.overflow = prev;
+      unlockScroll();
       window.removeEventListener("keydown", onKey);
       timers.forEach((t) => window.clearTimeout(t));
       window.clearTimeout(finishTimer);
@@ -81,7 +93,7 @@ export function WhatsAppInterstitial() {
         >
           <button
             aria-label="Fechar"
-            onClick={() => setHref(null)}
+            onClick={close}
             className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 

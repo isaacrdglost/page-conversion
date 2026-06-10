@@ -7,6 +7,9 @@ import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { HighlightMark } from "@/components/home/highlight-mark";
 import { businessWhatsappHref } from "@/config/business";
 import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { openModal, releaseModal, requestAutoModal, useModalSync } from "@/lib/modal-manager";
+
+const MODAL_ID = "home-promo";
 
 /**
  * Pop-up de conversão da HOME — independente do PromoModal dos templates.
@@ -24,12 +27,24 @@ const SCROLL_OFFSET = 140; // px do fim da página
 export function HomePromo() {
   const [open, setOpen] = useState(false);
 
+  const close = () => {
+    setOpen(false);
+    releaseModal(MODAL_ID);
+  };
+  const openSelf = () => {
+    openModal(MODAL_ID);
+    setOpen(true);
+  };
+
+  // Se outro modal assumir a tela, este se fecha sozinho (sem sobreposição).
+  useModalSync(MODAL_ID, open, () => setOpen(false));
+
   // Gatilho: 30s OU rolar até o fim. Uma vez por sessão. ?promo=1 força abrir.
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     if (new URLSearchParams(window.location.search).get("promo") === "1") {
-      const t = window.setTimeout(() => setOpen(true), 0);
+      const t = window.setTimeout(openSelf, 0);
       return () => window.clearTimeout(t);
     }
 
@@ -40,8 +55,9 @@ export function HomePromo() {
       if (done) return;
       done = true;
       sessionStorage.setItem(SESSION_KEY, "1");
-      setOpen(true);
       cleanup();
+      // Pede a vez ao coordenador: abre agora se livre, ou espera sem spam.
+      requestAutoModal(openSelf);
     };
 
     const onScroll = () => {
@@ -65,7 +81,7 @@ export function HomePromo() {
   useEffect(() => {
     if (!open) return;
     lockScroll();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
       unlockScroll();
@@ -85,7 +101,7 @@ export function HomePromo() {
         >
           <button
             aria-label="Fechar"
-            onClick={() => setOpen(false)}
+            onClick={close}
             className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 
@@ -100,7 +116,7 @@ export function HomePromo() {
             className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-lg flex-col overflow-hidden rounded-3xl border border-border bg-card text-center shadow-2xl"
           >
             <button
-              onClick={() => setOpen(false)}
+              onClick={close}
               aria-label="Fechar"
               className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
@@ -148,7 +164,7 @@ export function HomePromo() {
             </p>
 
             <button
-              onClick={() => setOpen(false)}
+              onClick={close}
               className="mt-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               Continuar vendo

@@ -8,7 +8,10 @@ import { Highlight } from "@/components/ui/highlight";
 import { businessWhatsappHref } from "@/config/business";
 import { isPreviewMode } from "@/lib/preview";
 import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { openModal, releaseModal, requestAutoModal, useModalSync } from "@/lib/modal-manager";
 import type { PromoConfig } from "@/config/types";
+
+const MODAL_ID = "promo-modal";
 
 /** Grifo monocromático: texto preto com sublinhado em degradê (preto → cinza),
  *  funciona em texto de várias linhas (box-decoration-break). */
@@ -41,6 +44,18 @@ export function PromoModal({
   const cfg = promo ?? DEFAULT_PROMO;
   const [open, setOpen] = useState(false);
 
+  const close = () => {
+    setOpen(false);
+    releaseModal(MODAL_ID);
+  };
+  const openSelf = () => {
+    openModal(MODAL_ID);
+    setOpen(true);
+  };
+
+  // Se outro modal assumir a tela, este se fecha sozinho (sem sobreposição).
+  useModalSync(MODAL_ID, open, () => setOpen(false));
+
   // Gatilho: 30s OU rolar até o fim. Dispara uma vez por sessão.
   useEffect(() => {
     if (cfg.enabled === false) return;
@@ -49,7 +64,7 @@ export function PromoModal({
 
     // Atalho de teste/demo: ?promo=1 força o pop-up a abrir na hora, sempre.
     if (new URLSearchParams(window.location.search).get("promo") === "1") {
-      const t = window.setTimeout(() => setOpen(true), 0);
+      const t = window.setTimeout(openSelf, 0);
       return () => window.clearTimeout(t);
     }
 
@@ -60,8 +75,9 @@ export function PromoModal({
       if (done) return;
       done = true;
       sessionStorage.setItem(storageKey, "1");
-      setOpen(true);
       cleanup();
+      // Pede a vez ao coordenador: abre agora se livre, ou espera sem spam.
+      requestAutoModal(openSelf);
     };
 
     const onScroll = () => {
@@ -85,7 +101,7 @@ export function PromoModal({
   useEffect(() => {
     if (!open) return;
     lockScroll();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
       unlockScroll();
@@ -109,7 +125,7 @@ export function PromoModal({
           {/* Backdrop desfocado */}
           <button
             aria-label="Fechar"
-            onClick={() => setOpen(false)}
+            onClick={close}
             className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 
@@ -128,7 +144,7 @@ export function PromoModal({
             <div className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
 
             <button
-              onClick={() => setOpen(false)}
+              onClick={close}
               aria-label="Fechar"
               className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
@@ -177,7 +193,7 @@ export function PromoModal({
               </a>
 
               <button
-                onClick={() => setOpen(false)}
+                onClick={close}
                 className="mt-4 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 {cfg.dismiss ?? "Continuar vendo"}

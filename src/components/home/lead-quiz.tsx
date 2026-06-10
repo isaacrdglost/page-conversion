@@ -6,6 +6,9 @@ import { X, Check, ArrowLeft } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { businessWhatsappHref } from "@/config/business";
 import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { openModal, releaseModal, useModalSync } from "@/lib/modal-manager";
+
+const MODAL_ID = "lead-quiz";
 
 /**
  * "Montar a minha página": mini-form de 2 passos num modal de tamanho fixo.
@@ -36,10 +39,18 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
   const [ramo, setRamo] = useState<string | null>(null);
   const [needs, setNeeds] = useState<string[]>([NEEDS[0].title]);
 
+  const close = () => {
+    setOpen(false);
+    releaseModal(MODAL_ID);
+  };
+
+  // Se outro modal assumir a tela, este se fecha sozinho (sem sobreposição).
+  useModalSync(MODAL_ID, open, () => setOpen(false));
+
   useEffect(() => {
     if (!open) return;
     lockScroll();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
       unlockScroll();
@@ -51,6 +62,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
     setStep(1);
     setRamo(null);
     setNeeds([NEEDS[0].title]);
+    openModal(MODAL_ID);
     setOpen(true);
   };
   const pickRamo = (r: string) => {
@@ -86,7 +98,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
           >
             <button
               aria-label="Fechar"
-              onClick={() => setOpen(false)}
+              onClick={close}
               className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
             />
 
@@ -116,7 +128,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
                   </span>
                 )}
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={close}
                   aria-label="Fechar"
                   className="grid h-8 w-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
@@ -201,7 +213,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={() => setOpen(false)}
+                          onClick={close}
                           className="group mt-5 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#25D366]/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#25D366]/40"
                         >
                           <WhatsappIcon className="h-5 w-5 transition-transform group-hover:rotate-6" />
