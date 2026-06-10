@@ -48,6 +48,7 @@ export function Location({
 
           <Reveal delay={0.2}>
             <a
+              data-demo-pitch
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"

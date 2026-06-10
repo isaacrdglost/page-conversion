@@ -43,7 +43,7 @@ export default async function Home() {
   const year = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* Coluna emoldurada por linhas verticais (Vercel-light) */}
       <div className="relative mx-auto max-w-6xl border-x border-border">
         {/* "+" nos quatro cantos externos da moldura */}

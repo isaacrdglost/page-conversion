@@ -88,6 +88,7 @@ export function Header({
         )}
 
         <a
+          data-demo-pitch
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
@@ -99,6 +100,7 @@ export function Header({
         {/* Mobile: CTA sempre visível; menu só se houver links */}
         <div className="flex items-center gap-2 md:hidden">
           <a
+            data-demo-pitch
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"

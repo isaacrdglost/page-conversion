@@ -43,6 +43,7 @@ export function Hero({
           <Reveal delay={0.24} direction="right">
             <div className="mt-9 flex flex-col items-start gap-5">
               <a
+                data-demo-pitch
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"

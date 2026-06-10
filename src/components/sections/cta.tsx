@@ -35,6 +35,7 @@ export function Cta({
         )}
         <Reveal delay={0.18}>
           <a
+            data-demo-pitch
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
