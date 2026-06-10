@@ -30,8 +30,7 @@ function useDraw() {
       ? {}
       : {
           initial: { pathLength: 0, opacity: 0 },
-          whileInView: { pathLength: 1, opacity: 1 },
-          viewport: { once: true, margin: "-40px" },
+          animate: { pathLength: 1, opacity: 1 },
           transition: drawTransition(delay),
         };
 }

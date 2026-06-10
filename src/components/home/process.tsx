@@ -17,7 +17,7 @@ const STEPS = [
   {
     n: "02",
     title: "Construção",
-    description: "Design e desenvolvimento da sua página, com a sua aprovação em cada etapa.",
+    description: "Design e desenvolvimento da sua página com todo o repertório de marca, texto e código.",
     Sketch: SketchLayout,
   },
   {
