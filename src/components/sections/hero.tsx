@@ -27,7 +27,7 @@ export function Hero({
 
       <div className="container-px grid items-center gap-10 lg:min-h-[calc(100vh-72px)] lg:grid-cols-2 lg:gap-8">
         {/* Conteúdo */}
-        <div className="relative z-10 max-w-xl pt-10 lg:py-20">
+        <div className="relative z-10 max-w-xl pb-16 pt-10 lg:py-20">
           <Reveal delay={0.08} direction="right">
             <h1 className="text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-[3.6rem]">
               <Highlight text={hero.headline} />

@@ -4,6 +4,16 @@ import { Highlight } from "@/components/ui/highlight";
 import { CountUp } from "@/components/ui/count-up";
 import type { AboutConfig } from "@/config/types";
 
+function initials(name: string) {
+  return name
+    .replace(/^(Dra?\.?|Dr\.?)\s+/i, "")
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+}
+
 export function About({ about }: { about: AboutConfig }) {
   return (
     <section id="sobre" className="py-20 sm:py-28">
@@ -74,11 +84,20 @@ export function About({ about }: { about: AboutConfig }) {
 
           {about.signatureName && (
             <Reveal delay={0.3} direction="right">
-              <div className="mt-8">
-                <div className="text-xl font-semibold text-primary">{about.signatureName}</div>
-                {about.signatureTitle && (
-                  <div className="text-xs text-muted-foreground">{about.signatureTitle}</div>
-                )}
+              <div className="mt-8 inline-flex items-center gap-4 rounded-2xl border border-border bg-card p-3 pr-6 shadow-sm shadow-primary/5">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-secondary text-base font-bold text-primary">
+                  {initials(about.signatureName)}
+                </span>
+                <div>
+                  <div className="font-semibold leading-tight text-foreground">
+                    {about.signatureName}
+                  </div>
+                  {about.signatureTitle && (
+                    <div className="mt-0.5 text-xs leading-snug text-muted-foreground">
+                      {about.signatureTitle}
+                    </div>
+                  )}
+                </div>
               </div>
             </Reveal>
           )}

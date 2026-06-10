@@ -37,7 +37,7 @@ export function GoogleBadge({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "group inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-full border px-5 py-2.5 transition-all hover:-translate-y-0.5",
+        "group inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 rounded-2xl border px-4 py-2.5 transition-all hover:-translate-y-0.5",
         dark
           ? "border-surface-dark-border bg-white/5 hover:bg-white/[0.08]"
           : "border-border bg-card hover:shadow-md",

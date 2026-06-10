@@ -6,6 +6,7 @@ import { X, Check } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { HighlightMark } from "@/components/home/highlight-mark";
 import { businessWhatsappHref } from "@/config/business";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 /**
  * Pop-up de conversão da HOME — independente do PromoModal dos templates.
@@ -63,12 +64,11 @@ export function HomePromo() {
   // Trava o scroll do fundo e fecha no Esc.
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      unlockScroll();
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X, Check, ArrowLeft } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { businessWhatsappHref } from "@/config/business";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 /**
  * "Montar a minha página": mini-form de 2 passos num modal de tamanho fixo.
@@ -34,26 +35,17 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
   const [step, setStep] = useState(1);
   const [ramo, setRamo] = useState<string | null>(null);
   const [needs, setNeeds] = useState<string[]>([NEEDS[0].title]);
-  const measureRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number | "auto">("auto");
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      unlockScroll();
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
-
-  // Mede a altura do passo atual pra animar o redimensionamento (estilo Apple).
-  useEffect(() => {
-    if (!open) return;
-    if (measureRef.current) setHeight(measureRef.current.offsetHeight);
-  }, [open, step]);
 
   const start = () => {
     setStep(1);
@@ -139,19 +131,14 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
               </div>
               </div>
 
-              {/* Conteúdo rolável: a altura anima suavemente entre os passos (estilo Apple) */}
+              {/* Conteúdo rolável: o botão de avançar sempre fica acessível no mobile */}
               <div className="min-h-0 flex-1 overflow-y-auto px-7 pb-7 sm:px-8 sm:pb-8">
-              <motion.div
-                animate={{ height }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-5 overflow-hidden"
-              >
-                <div ref={measureRef}>
                   <motion.div
                     key={step}
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+                    className="mt-5"
                   >
                     {step === 1 ? (
                       <>
@@ -223,8 +210,6 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
                       </>
                     )}
                   </motion.div>
-                </div>
-              </motion.div>
               </div>
             </motion.div>
           </motion.div>

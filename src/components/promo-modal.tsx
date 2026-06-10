@@ -7,6 +7,7 @@ import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { Highlight } from "@/components/ui/highlight";
 import { businessWhatsappHref } from "@/config/business";
 import { isPreviewMode } from "@/lib/preview";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 import type { PromoConfig } from "@/config/types";
 
 /** Grifo monocromático: texto preto com sublinhado em degradê (preto → cinza),
@@ -83,12 +84,11 @@ export function PromoModal({
   // Trava o scroll do fundo e fecha no Esc enquanto aberto.
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      unlockScroll();
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);

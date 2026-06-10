@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/whatsapp";
 import { businessWhatsappHref } from "@/config/business";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 /**
  * Modal de pitch das páginas de exemplo. Qualquer elemento com o atributo
