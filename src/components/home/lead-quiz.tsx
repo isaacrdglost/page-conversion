@@ -95,7 +95,7 @@ export function LeadQuiz({ triggerClassName }: { triggerClassName?: string }) {
             <button
               aria-label="Fechar"
               onClick={() => setOpen(false)}
-              className="absolute inset-0 bg-foreground/50 backdrop-blur-md"
+              className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
             />
 
             <motion.div

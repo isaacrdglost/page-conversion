@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { templates, getTemplate } from "@/config/templates";
+import type { SiteConfig } from "@/config/types";
 import { SiteTemplate } from "@/components/site-template";
+import { ContabilidadeTemplate } from "@/components/contabilidade/contabilidade-template";
+
+/** Layouts próprios por nicho (fora do SiteTemplate genérico). */
+const CUSTOM_LAYOUTS: Record<
+  string,
+  React.ComponentType<{ config: SiteConfig; year: number }>
+> = {
+  "contabilidade-ferreira": ContabilidadeTemplate,
+};
 
 /** Gera as rotas estáticas a partir do registry de templates. */
 export function generateStaticParams() {
@@ -42,5 +52,6 @@ export default async function TemplatePage({
   const entry = getTemplate(template);
   if (!entry) notFound();
 
-  return <SiteTemplate config={entry.config} year={new Date().getFullYear()} />;
+  const Layout = CUSTOM_LAYOUTS[template] ?? SiteTemplate;
+  return <Layout config={entry.config} year={new Date().getFullYear()} />;
 }

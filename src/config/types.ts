@@ -169,8 +169,13 @@ export interface StatsConfig {
 }
 
 export interface BeforeAfterItem {
-  before: string;
-  after: string;
+  /** Layout "compare": imagem do antes. */
+  before?: string;
+  /** Layout "compare": imagem do depois. */
+  after?: string;
+  /** Layout "grid": imagem única. */
+  image?: string;
+  /** Legenda (ex: "Casamento · Mar/2025"). */
   label?: string;
 }
 
@@ -178,6 +183,8 @@ export interface GalleryConfig {
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  /** "compare" = slider antes/depois (odonto); "grid" = grade de fotos (eventos). Default "compare". */
+  layout?: "compare" | "grid";
   items: BeforeAfterItem[];
 }
 

@@ -82,7 +82,7 @@ export function WhatsAppInterstitial() {
           <button
             aria-label="Fechar"
             onClick={() => setHref(null)}
-            className="absolute inset-0 bg-foreground/50 backdrop-blur-md"
+            className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 
           <motion.div

@@ -1,5 +1,9 @@
 import type { SiteConfig } from "../types";
 import { odontoDraAna } from "./odonto-draana";
+import { contabilidadeFerreira } from "./contabilidade-escritorio";
+import { petshopPatasECia } from "./petshop";
+import { pilatesStudioLotus } from "./pilates-studio";
+import { eventosVillaReal } from "./eventos-buffet";
 
 /**
  * Registry de templates. Cada entrada vira uma rota /<slug> e um card na home.
@@ -28,6 +32,38 @@ export const templates: TemplateEntry[] = [
     name: "Dra. Ana Souza",
     blurb: "Página feita para dentistas atraírem e agendarem novos pacientes pelo WhatsApp.",
   },
+  {
+    slug: "contabilidade-ferreira",
+    config: contabilidadeFerreira,
+    title: "Página para contadores e escritórios",
+    niche: "Contabilidade",
+    name: "Ferreira Contabilidade",
+    blurb: "Página para contadores atraírem e fecharem clientes com mais autoridade.",
+  },
+  {
+    slug: "petshop-patasecia",
+    config: petshopPatasECia,
+    title: "Página para pet shops e clínicas vet",
+    niche: "Pet Shop",
+    name: "Patas & Cia",
+    blurb: "Página para pet shops e clínicas atraírem tutores e lotarem a agenda.",
+  },
+  {
+    slug: "pilates-studiolotus",
+    config: pilatesStudioLotus,
+    title: "Página para estúdios de pilates",
+    niche: "Pilates",
+    name: "Studio Lótus",
+    blurb: "Página para estúdios e instrutores atraírem alunos e preencherem turmas.",
+  },
+  {
+    slug: "eventos-villareal",
+    config: eventosVillaReal,
+    title: "Página para buffets e espaços de eventos",
+    niche: "Eventos & Buffet",
+    name: "Espaço Villa Real",
+    blurb: "Página para buffets e produtoras atraírem e fecharem mais eventos.",
+  },
 ];
 
 export function getTemplate(slug: string): TemplateEntry | undefined {
@@ -43,29 +79,4 @@ export interface ComingSoonEntry {
   accent: string;
 }
 
-export const comingSoon: ComingSoonEntry[] = [
-  {
-    niche: "Contabilidade",
-    title: "Página para contadores e escritórios",
-    blurb: "Página para contadores atraírem e fecharem clientes com mais autoridade.",
-    accent: "#2563EB",
-  },
-  {
-    niche: "Pet Shop",
-    title: "Página para pet shops e clínicas vet",
-    blurb: "Página para pet shops e clínicas atraírem tutores e lotarem a agenda.",
-    accent: "#F59E0B",
-  },
-  {
-    niche: "Pilates",
-    title: "Página para estúdios de pilates",
-    blurb: "Página para estúdios e instrutores atraírem alunos e preencherem turmas.",
-    accent: "#7C3AED",
-  },
-  {
-    niche: "Eventos & Buffet",
-    title: "Página para buffets e eventos",
-    blurb: "Página para buffets e produtoras atraírem e fecharem mais eventos.",
-    accent: "#CA8A04",
-  },
-];
+export const comingSoon: ComingSoonEntry[] = [];

@@ -13,7 +13,8 @@ import { Faq } from "@/components/sections/faq";
 import { Location } from "@/components/sections/location";
 import { Cta } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
-import { WhatsAppFloat } from "@/components/ui/whatsapp-float";
+import { DemoFloat } from "@/components/demo-float";
+import { DemoPitchModal } from "@/components/demo-pitch";
 import { PromoModal } from "@/components/promo-modal";
 import { ExampleBadge } from "@/components/example-badge";
 
@@ -54,7 +55,8 @@ export function SiteTemplate({ config: c, year }: { config: SiteConfig; year: nu
         ))}
       </main>
       <Footer footer={c.footer} fallbackName={c.header.logoText} year={year} />
-      <WhatsAppFloat href={wa} />
+      <DemoFloat />
+      <DemoPitchModal niche={c.header.subtitle} />
       <PromoModal promo={c.promo} />
       <ExampleBadge />
     </>

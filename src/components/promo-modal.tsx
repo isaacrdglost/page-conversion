@@ -110,7 +110,7 @@ export function PromoModal({
           <button
             aria-label="Fechar"
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-foreground backdrop-blur-sm"
+            className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 
           {/* Card */}

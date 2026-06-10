@@ -86,7 +86,7 @@ export function HomePromo() {
           <button
             aria-label="Fechar"
             onClick={() => setOpen(false)}
-            className="absolute inset-0 bg-foreground/40 backdrop-blur-md"
+            className="absolute inset-0 bg-foreground/20 backdrop-blur-[14px]"
           />
 
           <motion.div

@@ -2,17 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { businessWhatsappHref } from "@/config/business";
 import { isPreviewMode } from "@/lib/preview";
-
-const HREF = businessWhatsappHref(
-  "Olá! Vi um exemplo e quero a minha página personalizada.",
-);
 
 /**
  * Selo discreto que sinaliza que a página é um exemplo (a versão do cliente é
- * personalizada). Canto inferior esquerdo, para não colidir com o WhatsApp float
- * (inferior direito). Nunca usa a palavra "template".
+ * personalizada). Leva para a nossa home. Canto inferior esquerdo, para não
+ * colidir com o WhatsApp float (inferior direito). Nunca usa a palavra "template".
  */
 export function ExampleBadge() {
   const [hide, setHide] = useState(false);
@@ -23,9 +18,8 @@ export function ExampleBadge() {
 
   return (
     <motion.a
-      href={HREF}
-      target="_blank"
-      rel="noopener noreferrer"
+      href="/"
+      aria-label="Conheça quem faz estas páginas"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1, duration: 0.4 }}
