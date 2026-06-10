@@ -71,24 +71,25 @@ export function Hero({
         </div>
 
         {/* Imagem (no mobile vai pro topo, menor e cortada) */}
-        <Reveal delay={0.2} scale className="relative z-10 order-first flex items-end justify-center pb-2 pt-4 lg:order-none lg:h-[calc(100vh-72px)] lg:py-0">
-          <div className="relative w-[78%] max-w-[440px] sm:w-[88%]">
-            <div className="relative h-[230px] w-full overflow-hidden rounded-3xl shadow-2xl shadow-primary/15 sm:h-[340px] lg:aspect-auto lg:h-[80vh] lg:rounded-t-[200px]">
+        <Reveal delay={0.2} scale className="relative z-10 order-first -mx-5 sm:-mx-8 lg:order-none lg:mx-0 lg:flex lg:h-[calc(100vh-72px)] lg:items-end lg:justify-center lg:py-0">
+          <div className="relative w-full lg:w-[88%] lg:max-w-[440px]">
+            <div className="relative h-[46vh] max-h-[440px] w-full overflow-hidden sm:h-[52vh] lg:aspect-auto lg:h-[80vh] lg:max-h-none lg:rounded-t-[200px] lg:shadow-2xl lg:shadow-primary/15">
               <Image
                 src={hero.image}
                 alt={hero.imageAlt}
                 fill
                 priority
-                sizes="(max-width: 1024px) 78vw, 40vw"
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover object-top"
               />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent lg:hidden" />
             </div>
 
             {hero.floatCard && (
               <motion.div
                 animate={{ y: [0, -9, 0] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute bottom-[12%] -left-3 hidden min-w-[200px] items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl shadow-primary/10 sm:-left-8 sm:flex"
+                className="absolute bottom-[12%] hidden min-w-[200px] items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl shadow-primary/10 lg:-left-8 lg:flex"
               >
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-secondary text-primary">
                   <Star className="h-5 w-5 fill-current" strokeWidth={0} />

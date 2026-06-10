@@ -206,19 +206,20 @@ export function ContabilidadeTemplate({ config: c, year }: { config: SiteConfig;
               </Reveal>
             </div>
 
-            <Reveal direction="left" delay={0.1} className="relative order-1 min-w-0 lg:order-2">
-              <div className="absolute -bottom-6 -right-5 -z-10 h-52 w-52 rounded-[2rem] bg-primary/10" />
-              <div className="relative overflow-hidden rounded-[1.75rem] border border-border shadow-2xl shadow-primary/10">
-                <div className="relative aspect-[4/5] w-full sm:aspect-square">
+            <Reveal direction="left" delay={0.1} className="relative order-1 -mx-5 min-w-0 lg:order-2 lg:mx-0">
+              <div className="absolute -bottom-6 -right-5 -z-10 hidden h-52 w-52 rounded-[2rem] bg-primary/10 lg:block" />
+              <div className="relative overflow-hidden border-0 shadow-none lg:rounded-[1.75rem] lg:border lg:border-border lg:shadow-2xl lg:shadow-primary/10">
+                <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-square">
                   <Image
                     src={c.hero.image}
                     alt={c.hero.imageAlt ?? "Atendimento contábil"}
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover"
+                    className="object-cover object-center"
                   />
                 </div>
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent lg:hidden" />
               </div>
             </Reveal>
           </div>
